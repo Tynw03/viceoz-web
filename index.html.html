@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> vice oz Website </title>
+    <style>
+        body 
+            font-family: Arial, sans-serif;`
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to My First Website! here ,let's write about our life! we will be your secret friend! </h1>
+    <p id="greeting"> If you are miss me click the button before u get something special! </p>
+
+    <button onclick="iLoveYou()">Click Me!</button>
+
+    <script>
+        function iLoveYou() {
+            alert("I love you! ❤️");
+        }
+    </script>    
+         "Hello, my dear special! 👋 Welcome to the world with full of peoples who loves you!";
+        }
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stable Photo Gallery</title>
+    <style>
+           
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #photos img {
+            width: 200px;
+            height: 200px
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>thats my relaxing photo Gallery U can also upload your best photo!It will be in public </h1>
+    <p>  here we go :</p>
+    <button id="uploadButton" onclick="document.getElementById('fileInput').click()">Upload Photos</button>
+
+    <!-- File input for uploading photos -->
+    <input type="file" id="fileInput" accept="image/    *" multiple onchange="savePhotos(event)">
+    
+    <!-- Div to display the uploaded photos -->
+    <div id="photos"></div>
+   
+    <button id="uploadLetterButton" onclick="document.getElementById('letterInput').click()">Upload Letter</button>
+
+<!-- File input for uploading text files -->
+<input type="file" id="letterInput" accept=".txt" multiple onchange="saveLetters(event)" style="display: none;">
+
+<!-- Div to display uploaded letters -->
+<div id="letters"></div>
+
+
+
+    <script> 
+    
+// Function to save the note
+function saveNote() { 
+            const noteText = document.getElementById('noteInput').value.trim();
+            if (noteText) {
+                let notes = JSON.parse(localStorage.getItem('notes')) || [];
+                notes.push(noteText);
+                localStorage.setItem('notes', JSON.stringify(notes));
+                displayNotes(notes);
+                document.getElementById('noteInput').value = ''; // Clear the textarea
+            } else {
+                alert("Please write a note before saving!");
+            }
+        }
+
+        // Function to display saved notes
+        function displayNotes(notes) {
+            const notesContainer = document.getElementById('notes');
+            notesContainer.innerHTML = ''; // Clear previous notes
+
+            notes.forEach((text, index) => {
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'note';
+                noteDiv.textContent = text;
+                noteDiv.onclick = function() {
+                    if (confirm("Do you want to delete this note?")) {
+                        deleteNote(index);
+                    }
+                };
+                notesContainer.appendChild(noteDiv);
+            });
+        }
+
+        // Function to delete a specific note
+        function deleteNote(index) {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes.splice(index, 1); // Remove the note at the specified index
+            localStorage.setItem('notes', JSON.stringify(notes));
+            displayNotes(notes); // Refresh the display
+        }
+
+        // On page load, display any saved notes
+        window.onload = function() {
+            const savedNotes = JSON.parse(localStorage.getItem('notes'));
+            if (savedNotes) {
+                displayNotes(savedNotes);
+            }
+        };
+        function savePhotos(event) {
+            const files = event.target.files;
+            let images = [];
+
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    images.push(e.target.result);
+
+                    // After reading all files, save to localStorage
+                    if (images.length === files.length) {
+                        localStorage.setItem('photos', JSON.stringify(images));
+                        displayPhotos(images);
+                    }
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        }
+
+        function displayPhotos(images) {
+            const photosContainer = document.getElementById('photos');
+            photosContainer.innerHTML = '';
+
+            images.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                photosContainer.appendChild(img);
+            });
+        }
+
+        // When the page loads, show saved photos
+        window.onload = function() {
+            const savedPhotos = JSON.parse(localStorage.getItem('photos'));
+            if (savedPhotos) {
+                displayPhotos(savedPhotos);
+            }
+        };
+        // Function to delete a specific photo
+function deletePhoto(index) {
+    let images = JSON.parse(localStorage.getItem('photos')) || []; // Get existing photos
+    images.splice(index, 1);  // Remove the photo from the array
+    localStorage.setItem('photos', JSON.stringify(images));  // Save the updated array to localStorage
+    displayPhotos(images);  // Refresh the gallery
+}
+
+// Function to delete all photos
+function deleteAllPhotos() {
+    localStorage.removeItem('photos');  // Remove all photos from localStorage
+    document.getElementById('photos').innerHTML = '';  // Clear the gallery on the page
+    alert("All photos deleted!");
+}
+
+// Display the photos with delete functionality
+function displayPhotos(images) {
+    const photosContainer = document.getElementById('photos');
+    photosContainer.innerHTML = '';  // Clear previous images
+
+    images.forEach((src, index) => {
+        const img = document.createElement('img');
+        img.src = src;
+
+        // Add event listener to delete the photo when clicked
+        img.onclick = function() {
+            if (confirm("Do you want to delete this photo?")) {
+                deletePhoto(index);  // Call deletePhoto function
+            }
+        };
+
+        photosContainer.appendChild(img);  // Append each image to the page
+    });
+}
+//document.getElementById('uploadButton').style.display = 'none'; 
+ //Initial setup when the page loads
+window.onload = function() {
+    const savedPhotos = JSON.parse(localStorage.getItem('photos'));
+    if (savedPhotos) {
+        displayPhotos(savedPhotos);  // Display saved photos from localStorage
+    }
+};
+                        // Function to save photo
+    </script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> do u wanna write letter?pls here u can write your letter! </title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif
+            text-align: center;
+            margin-top: 20px;
+        }
+        #a4Paper {
+            width: 21cm; /* A4 width in cm */
+            height: 29.7cm; /* A4 height in cm */
+            border: 1px solid #333;
+            padding: 20px;
+            background-color: #fff;
+            margin: 0 auto;
+            overflow-y: auto;
+            box-sizing: border-box;
+            position: relative;
+        }
+        #textArea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 10px;
+            box-sizing: border-box;
+            outline: none;
+            resize: none;
+        }
+        #uploadButton, #resetButton, #saveButton {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Write on A4 Paper</h1>
+    <button id="uploadButton" onclick="openTextArea()">Click to Write Letter</button>
+    <button id="resetButton" onclick="resetText()" style="display: none;">Reset Letter</button>
+    <button id="saveButton" onclick="saveText()" style="display: none;">Save Letter</button>
+
+    <div id="a4Paper" style="display: none;">
+        <textarea id="textArea" placeholder="Start typing your letter here..."></textarea>
+    </div>
+
+    <script>
+        function openTextArea() {
+            // Show the A4 paper and the text area for writing
+            document.getElementById('a4Paper').style.display = 'block';
+            document.getElementById('uploadButton').style.display = 'none'; // Hide the button after it's clicked
+            document.getElementById('resetButton').style.display = 'block'; // Show reset button
+            document.getElementById('saveButton').style.display = 'block'; // Show save button
+            loadText(); // Load the saved text (if any) when the page opens
+        }
+
+       function resetText() {
+            document.getElementById('textArea').value = '';
+        }
+
+        function saveText() {
+            // Save the text entered by the user in localStorage
+            const text = document.getElementById('textArea').value;
+            localStorage.setItem('letterText', text);
+            alert('Your letter has been saved!');
+        }
+
+        function loadText() {
+            // Load saved text from localStorage (if any)
+            const savedText = localStorage.getItem('letterText');
+            if (savedText) {
+                document.getElementById('textArea').value = savedText;
+            }
+        }
+    </script>
+
+</body>
+</html>
